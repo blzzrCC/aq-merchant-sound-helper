@@ -1,0 +1,38 @@
+# ============================================================
+# 暗区鉴宝 · Git 忽略规则
+# 原则：源码 / 文档 / 启动脚本进仓库；运行时产生的一切数据不进仓库。
+# ============================================================
+
+# ---------- 运行时数据（用户首次运行时自动生成）----------
+# 库索引与物品表 —— 由 aq_library.save() 创建
+data/library/library.json
+data/library/items.json
+# 判定阈值标定结果 —— 由 tools/calibrate.py 创建
+data/library/calibration.json
+# 采样音频与待打标队列：本机私有录音，且音频内容属游戏素材，不应分发
+data/library/samples/
+data/library/_inbox/
+# 兜底：data/ 下任何数据文件都不入库
+data/**/*.json
+data/**/*.wav
+
+# ---------- 协作日志与临时文件 ----------
+# .workbuddy/memory/ 记录本机环境与决策过程
+# .workbuddy/tmp/    临时中间产物
+.workbuddy/memory/
+.workbuddy/tmp/
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# ---------- 编辑器与系统 ----------
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+Desktop.ini
