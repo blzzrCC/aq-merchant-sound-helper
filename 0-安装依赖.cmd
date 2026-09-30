@@ -18,22 +18,29 @@ if not defined PY (
 )
 
 if not exist "%~dp0.venv\Scripts\python.exe" (
-  echo [1/3] Creating virtual environment: .venv
+  echo [1/2] Creating virtual environment: .venv
   "%PY%" -m venv "%~dp0.venv"
-  if not exist "%~dp0.venv\Scripts\python.exe" (
-    echo [ERROR] Failed to create venv.
-    pause
-    exit /b 1
-  )
 ) else (
-  echo [1/3] Virtual environment already exists, skipped.
+  echo [1/2] Virtual environment already exists, skipped.
 )
 
-echo [2/3] Upgrading pip ...
-"%~dp0.venv\Scripts\python.exe" -m pip install --upgrade pip --quiet
+if not exist "%~dp0.venv\Scripts\python.exe" (
+  echo [ERROR] Failed to create virtual environment.
+  echo         Try deleting the .venv folder, then run this script again.
+  echo.
+  pause
+  exit /b 1
+)
 
-echo [3/3] Installing dependencies ...
+echo [2/2] Installing dependencies ...
 "%~dp0.venv\Scripts\python.exe" -m pip install -r "%~dp0requirements.txt"
+if errorlevel 1 (
+  echo.
+  echo [ERROR] Dependency installation failed. Check your network, then rerun.
+  echo.
+  pause
+  exit /b 1
+)
 
 echo.
 echo Done. Next: run 1-Sampling.cmd
